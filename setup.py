@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name = "flet_route",
-    version = "0.1",
+    version = "0.1.1",
     author="Saurabh Wadekar [ INDIA ]",
     packages=["flet_route"],
     license="MIT",
