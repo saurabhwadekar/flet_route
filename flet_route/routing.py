@@ -5,6 +5,15 @@ from flet_route import ViewNotFound
 
 
 def path(url: str, clear: bool, view: View):
+    """
+    ```
+    path(
+        url = "/", # Here you have to give that url which will call your view on mach
+        clear = True, # If you want to clear all the routes you have passed so far, then pass True otherwise False.
+        view = IndexView # Here you have to pass a function or method which will take page and params and return ft.View
+    )
+    ```
+    """
     return [url, clear, view]
 
 
@@ -30,7 +39,11 @@ class Routing:
             path(url="/", clear=True, view=IndexView),
         ]
 
-        Routing(page=page,app_routes=app_routes)
+        Routing(
+            page=page, # Here you have to pass the page. Which will be found as a parameter in all your views
+            app_routes=app_routes, # Here a list has to be passed in which we have defined app routing like app_routes
+            not_found_view:View=ViewNotFound # If you want that there should be a different view call when no path matches, then you can pass that view here. otherwise no need to give it it will call ViewNotFound by default
+            )
         page.go(page.route)
     ft.app(target=main)
     ```
@@ -55,8 +68,7 @@ class Routing:
                 notfound = False
                 break
         if notfound:
-            self.page.views.append(self.not_found_view(page=self.page,params={}))
-            print("not found")
+            self.page.views.append(self.not_found_view(page=self.page,params={"url":self.page.route}))
         self.page.update()
 
     def view_pop(self, view):
