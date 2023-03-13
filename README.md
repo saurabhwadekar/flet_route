@@ -1,3 +1,4 @@
+![Build Status](flet-route.png)
 # This makes it easy to manage multiple views with dynamic routing.
 
 This is an utility class based on repath library which allows matching ExpressJS-like routes and parsing their parameters, for example `/account/:account_id/orders/:order_id`.
