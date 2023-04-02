@@ -2,7 +2,7 @@ from flet import View, Page,Text,TextButton
 
 
 
-def ViewNotFound(page:Page,params):
+def ViewNotFound(page:Page,params,basket):
     return View(
         "/notfound/404",
         controls=[

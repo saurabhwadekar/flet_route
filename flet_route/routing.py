@@ -1,7 +1,8 @@
-from flet import View,Page
+from flet import View, Page
 from repath import match
-from flet_route import ViewNotFound
-
+from .not_found_view import ViewNotFound
+from .params import Params
+from .basket import Basket
 
 
 def path(url: str, clear: bool, view: View):
@@ -15,7 +16,6 @@ def path(url: str, clear: bool, view: View):
     ```
     """
     return [url, clear, view]
-
 
 
 class Routing:
@@ -49,12 +49,14 @@ class Routing:
     ```
     """
 
-    def __init__(self, page: Page, app_routes: list,not_found_view:View=ViewNotFound):
+    def __init__(self, page: Page, app_routes: list, not_found_view: View = ViewNotFound):
         self.page = page
         self.not_found_view = not_found_view
         self.page.on_route_change = self.change_route
         self.page.on_view_pop = self.view_pop
         self.app_routes = app_routes
+        self.params = Params({})
+        self._basket = Basket()
 
     def change_route(self, route):
         notfound = True
@@ -64,11 +66,22 @@ class Routing:
                 if url[1]:
                     self.page.views.clear()
                 self.page.views.append(
-                    url[2](page=self.page, params=path_match.groupdict()))
+                    url[2](
+                        page=self.page,
+                        params=Params(path_match.groupdict()),
+                        basket=self._basket
+                    )
+                )
                 notfound = False
                 break
         if notfound:
-            self.page.views.append(self.not_found_view(page=self.page,params={"url":self.page.route}))
+            self.page.views.append(
+                self.not_found_view(
+                    page=self.page,
+                    params=Params({"url": self.page.route}),
+                    basket=self._basket
+                )
+            )
         self.page.update()
 
     def view_pop(self, view):
