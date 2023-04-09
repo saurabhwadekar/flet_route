@@ -1,0 +1,53 @@
+site_name: Flet-Route
+repo_url: https://github.com/saurabhwadekar/flet_route
+repo_name: saurabhwadekar/flet_route
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+theme:
+  name: material
+  logo: assets/logo-white.png
+  favicon: assets/logo-white.png
+  
+  icon:
+    repo: fontawesome/brands/github
+
+  palette:
+    scheme: slate
+    primary: pink
+
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - navigation.footer
+
+nav:
+  - Getting started: index.md
+  - Routing Flow: flow.md
+  - Function Based View: func-based.md
+  - Class Based View: class-based.md
+  - Params: params.md
+  - Basket: basket.md
+  - App Based Middleware: app-middleware.md
+  - Url Based Middleware: url-middleware.md
+  - Sample Apps: sample-apps.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra:
+  social:
+    - icon: fontawesome/brands/medium
+      link: https://fosstodon.org/@squidfunk
+    - icon: fontawesome/brands/youtube
+      link: https://fosstodon.org/@squidfunk
+    - icon: fontawesome/brands/github
+      link: https://fosstodon.org/@squidfunk
+
+
