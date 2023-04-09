@@ -13,7 +13,7 @@ pip install flet-route
 pip install flet-route --upgrade
 ```
 
-#### [📖 Read the documentation ](https://saurabhwadekar.github.io/flet-route-doc/flow/)
+#### [📖 Read the documentation ](https://saurabhwadekar.github.io/flet-route-doc)
 
 
 ## Author
