@@ -18,7 +18,7 @@ def main(page: ft.Page):
         path(
             url="/", # Here you have to give that url which will call your view on mach
             clear=True, # If you want to clear all the routes you have passed so far, then pass True otherwise False.
-            view=IndexView().view # Here you have to pass a function or method which will take page and params and return ft.View (If you are using class based view then you have to pass method name like IndexView().view .)
+            view=IndexView().view # Here you have to pass a function or method which will take page,params and basket and return ft.View (If you are using class based view then you have to pass method name like IndexView().view .)
             ),
         path(url="/next_view/:my_id", clear=False, view=NextView().view),
     ]
