@@ -8,14 +8,24 @@ setup(
     name = "flet_route",
     version = "0.2.2",
     author="Saurabh Wadekar [ INDIA ]",
-    packages=["flet_route"],
+    packages=["flet_route","cli"],
     license="MIT",
-    requires=["flet","repath"],
+    requires=["flet","repath","click"],
     maintainer="Saurabh Wadekar",
     maintainer_email="saurabhwadekar420@gmail.com",
     keywords=["flet","routing","flet_route","routes","flet app","flet-route","flet simple routing"],
     description="This makes it easy to manage multiple views with dynamic routing.",
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url="https://github.com/saurabhwadekar/flet_route"   
+    url="https://github.com/saurabhwadekar/flet_route",
+    include_package_data=True,
+    install_requires=[
+        'click',
+        "repath",
+        "flet",
+    ],
+    entry_points= {
+        'console_scripts': 
+        ['flet-route=cli:make_app']
+    }, 
 )
