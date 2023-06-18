@@ -16,6 +16,16 @@ pip install flet-route
 pip install flet-route --upgrade
 ```
 
+## Create New App
+```
+flet-route init
+```
+### or
+```
+flet-route init --appname my_flet_app
+```
+
+
 ## Author
 
 <b>Name : </b> Saurabh Wadekar<br>
