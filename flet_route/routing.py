@@ -1,4 +1,4 @@
-from flet import View, Page
+from flet import View, Page,AppBar,NavigationBar,FloatingActionButton
 from repath import match
 from .not_found_view import ViewNotFound,ViewNotFound_async
 from .params import Params
@@ -62,12 +62,16 @@ class Routing:
             app_routes: list,
             middleware:Callable[[Page,Params,Basket],None]=None,
             async_is=False,
-            not_found_view: Callable[[Page,Params,Basket],View] = None
+            not_found_view: Callable[[Page,Params,Basket],View] = None,
+            appbar : AppBar = None, 
+            navigation_bar : NavigationBar = None, 
             ):
         
         self.async_is = async_is
         self.page = page
         self.app_routes = app_routes
+        self.appbar = appbar
+        self.navigation_bar = navigation_bar
         self.__middleware = middleware
         self.__params = Params({})
         self.__basket = Basket()
@@ -114,12 +118,15 @@ class Routing:
 
                 if url[1]: 
                     self.page.views.clear()
-                self.page.views.append(
-                    url[2](
+                view = url[2](
                         page=self.page,
                         params=self.__params,
                         basket=self.__basket
                     )
+                view.appbar = self.appbar
+                view.navigation_bar = self.navigation_bar
+                self.page.views.append(
+                    view
                 )
                 notfound = False
                 break
@@ -169,12 +176,16 @@ class Routing:
 
                 if url[1]: 
                     self.page.views.clear()
-                self.page.views.append(
-                    await url[2](
+                view = await url[2](
                         page=self.page,
                         params=self.__params,
                         basket=self.__basket
                     )
+                view.appbar = self.appbar
+                view.navigation_bar = self.navigation_bar
+              
+                self.page.views.append(
+                    view
                 )
                 notfound = False
                 break
