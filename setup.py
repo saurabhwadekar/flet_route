@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name = "flet_route",
-    version = "0.3.1",
+    version = "0.3.2",
     author="Saurabh Wadekar [ INDIA ]",
     packages=["flet_route","cli"],
     license="MIT",

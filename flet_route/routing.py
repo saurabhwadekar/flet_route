@@ -1,6 +1,6 @@
-from flet import View, Page,AppBar,NavigationBar,FloatingActionButton
+from flet import View, Page, AppBar, NavigationBar
 from repath import match
-from .not_found_view import ViewNotFound,ViewNotFound_async
+from .not_found_view import ViewNotFound, ViewNotFound_async
 from .params import Params
 from .basket import Basket
 from typing import Callable
@@ -9,10 +9,11 @@ from typing import Callable
 def route_str(route):
     if type(route) == str:
         return route
-    else:return str(route.route)
+    else:
+        return str(route.route)
 
 
-def path(url: str, clear: bool, view: Callable[[Page,Params,Basket],View],middleware:Callable[[Page,Params,Basket],None]=None):
+def path(url: str, clear: bool, view: Callable[[Page, Params, Basket], View], middleware: Callable[[Page, Params, Basket], None] = None):
     """
     ```
     path(
@@ -22,7 +23,7 @@ def path(url: str, clear: bool, view: Callable[[Page,Params,Basket],View],middle
     )
     ```
     """
-    return [url, clear, view, middleware] 
+    return [url, clear, view, middleware]
 
 
 class Routing:
@@ -57,16 +58,16 @@ class Routing:
     """
 
     def __init__(
-            self, 
-            page: Page, 
+            self,
+            page: Page,
             app_routes: list,
-            middleware:Callable[[Page,Params,Basket],None]=None,
+            middleware: Callable[[Page, Params, Basket], None] = None,
             async_is=False,
-            not_found_view: Callable[[Page,Params,Basket],View] = None,
-            appbar : AppBar = None, 
-            navigation_bar : NavigationBar = None, 
-            ):
-        
+            not_found_view: Callable[[Page, Params, Basket], View] = None,
+            appbar: AppBar = None,
+            navigation_bar: NavigationBar = None,
+    ):
+
         self.async_is = async_is
         self.page = page
         self.app_routes = app_routes
@@ -76,17 +77,19 @@ class Routing:
         self.__params = Params({})
         self.__basket = Basket()
         if self.async_is:
-            self.page.on_route_change =  self.change_route_async
+            self.page.on_route_change = self.change_route_async
             self.page.on_view_pop = self.view_pop_async
             if not_found_view == None:
                 self.not_found_view = ViewNotFound_async
-            else:self.not_found_view = not_found_view
+            else:
+                self.not_found_view = not_found_view
         else:
             self.page.on_route_change = self.change_route
             self.page.on_view_pop = self.view_pop
             if not_found_view == None:
                 self.not_found_view = ViewNotFound
-            else:self.not_found_view = not_found_view
+            else:
+                self.not_found_view = not_found_view
 
     def change_route(self, route):
         notfound = True
@@ -95,34 +98,35 @@ class Routing:
             if path_match:
                 self.__params = Params(path_match.groupdict())
                 if self.__middleware != None:
-                    self.__middleware( # call main middleware
+                    self.__middleware(  # call main middleware
                         page=self.page,
                         params=self.__params,
                         basket=self.__basket
                     )
-                if self.page.route != route_str(route=route):# if chnge route using main midellware recall change route
+                # if chnge route using main midellware recall change route
+                if self.page.route != route_str(route=route):
                     self.page.go(self.page.route)
                     return
-                
-                if url[3] != None:
-                    url[3]( # call url middleware
-                        page=self.page,
-                        params=self.__params,
-                        basket=self.__basket
-                    )
-                
-                if self.page.route != route_str(route=route):# if chnge route using url midellware recall change route
-                    self.page.go(self.page.route)
-                    return
-                
 
-                if url[1]: 
+                if url[3] != None:
+                    url[3](  # call url middleware
+                        page=self.page,
+                        params=self.__params,
+                        basket=self.__basket
+                    )
+
+                # if chnge route using url midellware recall change route
+                if self.page.route != route_str(route=route):
+                    self.page.go(self.page.route)
+                    return
+
+                if url[1]:
                     self.page.views.clear()
                 view = url[2](
-                        page=self.page,
-                        params=self.__params,
-                        basket=self.__basket
-                    )
+                    page=self.page,
+                    params=self.__params,
+                    basket=self.__basket
+                )
                 view.appbar = self.appbar
                 view.navigation_bar = self.navigation_bar
                 self.page.views.append(
@@ -153,37 +157,38 @@ class Routing:
             if path_match:
                 self.__params = Params(path_match.groupdict())
                 if self.__middleware != None:
-                    await self.__middleware( # call main middleware
+                    await self.__middleware(  # call main middleware
                         page=self.page,
                         params=self.__params,
                         basket=self.__basket
                     )
-                if self.page.route != route_str(route=route):# if chnge route using main midellware recall change route
+                # if chnge route using main midellware recall change route
+                if self.page.route != route_str(route=route):
                     await self.page.go_async(self.page.route)
                     return
-                
-                if url[3] != None:
-                    await url[3]( # call url middleware
-                        page=self.page,
-                        params=self.__params,
-                        basket=self.__basket
-                    )
-                
-                if self.page.route != route_str(route=route):# if chnge route using url midellware recall change route
-                    await self.page.go_async(self.page.route)
-                    return
-                
 
-                if url[1]: 
+                if url[3] != None:
+                    await url[3](  # call url middleware
+                        page=self.page,
+                        params=self.__params,
+                        basket=self.__basket
+                    )
+
+                # if chnge route using url midellware recall change route
+                if self.page.route != route_str(route=route):
+                    await self.page.go_async(self.page.route)
+                    return
+
+                if url[1]:
                     self.page.views.clear()
                 view = await url[2](
-                        page=self.page,
-                        params=self.__params,
-                        basket=self.__basket
-                    )
+                    page=self.page,
+                    params=self.__params,
+                    basket=self.__basket
+                )
                 view.appbar = self.appbar
                 view.navigation_bar = self.navigation_bar
-              
+
                 self.page.views.append(
                     view
                 )
@@ -204,7 +209,3 @@ class Routing:
         self.page.views.pop()
         top_view = self.page.views[-1]
         await self.page.go_async(top_view.route)
-
-
-
-
