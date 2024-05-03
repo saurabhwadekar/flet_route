@@ -12,7 +12,7 @@ async def main(page: ft.Page):
         middleware = AppBasedMiddleware,
         async_is = True
     )
-    await page.go_async(page.route)
+    page.go(page.route)
 
 ft.app(target=main)
 
@@ -38,15 +38,12 @@ from flet_route import Params,Basket
 async def IndexView(page:ft.Page,params:Params,basket:Basket):
     print(params)
     print(basket)
-
-    async def go_next_view(e):
-        await page.go_async("/next_view/10")
         
     return ft.View(
         "/",
         controls=[
             ft.Text("This Is Index View"),
-            ft.ElevatedButton("Go Next View", on_click= go_next_view ),
+            ft.ElevatedButton("Go Next View", on_click= lambda _: page.go("/next_view/10")),
         ]
     )
 
@@ -59,14 +56,11 @@ async def NextView(page:ft.Page,params:Params,basket:Basket):
     print(params)
     print(basket)
     
-    async def go_index_view(e):
-        await page.go_async("/")
-
     return ft.View(
         "/next_view/:my_id",
         controls=[
             ft.Text("This Is Next View"),
-            ft.ElevatedButton("Go Index View", on_click= go_index_view),
+            ft.ElevatedButton("Go Index View", on_click= lambda _: page.go("/")),
         ]
     )
 

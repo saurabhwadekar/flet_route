@@ -1,8 +1,9 @@
 from flet import View, Page,Text,TextButton
-# import asyncio
+from .params import Params
+from .basket import Basket
 
 
-def ViewNotFound(page:Page,params,basket):
+def ViewNotFound(page:Page,params:Params,basket:Basket):
     return View(
         "/notfound/404",
         controls=[
@@ -12,15 +13,12 @@ def ViewNotFound(page:Page,params,basket):
             ),
             TextButton(
                 "Go Back OR '/' ",
-                on_click=lambda e:page.go(page.views[-2].route)
+                on_click=lambda _:page.go(page.views[-2].route)
             )
         ]
     )
 
-async def ViewNotFound_async(page:Page,params,basket):
-
-    async def go_back(e):
-        await page.go_async(page.views[-2].route)
+async def ViewNotFound_async(page:Page,params:Params,basket:Basket):
 
     return View(
         "/notfound/404",
@@ -31,7 +29,7 @@ async def ViewNotFound_async(page:Page,params,basket):
             ),
             TextButton(
                 "Go Back OR '/' ",
-                on_click=go_back
+                on_click=lambda _:page.go(page.views[-2].route)
             )
         ]
     )

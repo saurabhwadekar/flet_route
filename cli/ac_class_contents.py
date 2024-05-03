@@ -12,7 +12,7 @@ async def main(page: ft.Page):
         middleware = AppBasedMiddleware().call_me,
         async_is = True
     )
-    await page.go_async(page.route)
+    page.go(page.route)
 
 ft.app(target=main)
 
@@ -39,9 +39,6 @@ class IndexView:
     def __init__(self):
         ...
 
-    async def go_next_view(self,e):
-        await self.page.go_async("/next_view/10")
-
     async def view(self,page:ft.page,params:Params,basket:Basket):
         self.page = page
         print(params)
@@ -51,7 +48,7 @@ class IndexView:
             "/",
             controls=[
                 ft.Text("This Is Index View"),
-                ft.ElevatedButton("Go Next View", on_click= self.go_next_view),
+                ft.ElevatedButton("Go Next View", on_click= lambda _: self.page.go("/next_view/10")),
             ]
         )
 """
@@ -63,9 +60,6 @@ class NextView:
     def __init__(self):
         ...
 
-    async def go_index_view(self,e):
-        await self.page.go_async("/")
-
     async def view(self,page:ft.page,params:Params,basket:Basket):
         self.page = page
         print(params)
@@ -75,7 +69,7 @@ class NextView:
             "/next_view/:my_id",
             controls=[
                 ft.Text("This Is Next View"),
-                ft.ElevatedButton("Go Index View", on_click= self.go_index_view),
+                ft.ElevatedButton("Go Index View", on_click= lambda _: self.page.go("/")),
             ]
         )
 """
